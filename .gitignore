@@ -1,7 +1,7 @@
 /schedules
-/uploads
 .vscode
 credentials.json
+/keys/dev.py
 
 # client
 # dependencies

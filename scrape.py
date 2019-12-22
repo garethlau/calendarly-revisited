@@ -9,6 +9,7 @@ from pdfminer.layout import LAParams
 from pdfminer.converter import PDFPageAggregator
 import pdfminer
 
+
 def scrape_pdf(pdf_file, thresholds):
 
     # Open a PDF file.
@@ -55,31 +56,36 @@ def scrape_pdf(pdf_file, thresholds):
         # loop over the object list
         for obj in lt_objs:
 
-            # if it's a textbox, print text and location
+            # if it's a textbox, group into columns by the location
             if isinstance(obj, pdfminer.layout.LTTextBoxHorizontal):
                 box_x = obj.bbox[0]
                 box_y = obj.bbox[1]
 
-                # group into columns            
                 if (thresholds[0][0] < box_x and box_x < thresholds[0][1]):
                     # days['monday'].append("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
-                    days['monday'] += ("%s" % (obj.get_text().replace('\n', '_')))
+                    days['monday'] += ("%s" %
+                                       (obj.get_text().replace('\n', '_')))
                 elif (thresholds[1][0] <= box_x and box_x <= thresholds[1][1]):
                     # days['tuesday'].append("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
-                    days['tuesday'] += ("%s" % (obj.get_text().replace('\n', '_')))
-                
+                    days['tuesday'] += ("%s" %
+                                        (obj.get_text().replace('\n', '_')))
+
                 elif (thresholds[2][0] <= box_x and box_x < thresholds[2][1]):
                     # days['wednesday'].append("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
-                    days['wednesday'] += ("%s" % (obj.get_text().replace('\n', '_')))
-                
+                    days['wednesday'] += ("%s" %
+                                          (obj.get_text().replace('\n', '_')))
+
                 elif (thresholds[3][0] <= box_x and box_x <= thresholds[3][1]):
                     # days['thursday'].append("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
-                    days['thursday'] += ("%s" % (obj.get_text().replace('\n', '_')))
-                
+                    days['thursday'] += ("%s" %
+                                         (obj.get_text().replace('\n', '_')))
+
                 elif (thresholds[4][0] <= box_x and box_x <= thresholds[4][1]):
                     # days['friday'].append("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
-                    days['friday'] += ("%s" % (obj.get_text().replace('\n', '_')))
-                print("%6d, %6d, %s" % (obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
+                    days['friday'] += ("%s" %
+                                       (obj.get_text().replace('\n', '_')))
+                print("%6d, %6d, %s" % (
+                    obj.bbox[0], obj.bbox[1], obj.get_text().replace('\n', '_')))
 
             # if it's a container, recurse
             elif isinstance(obj, pdfminer.layout.LTFigure):
@@ -104,41 +110,47 @@ def scrape_pdf(pdf_file, thresholds):
         "friday": []
     }
 
-
     for key in days:
+        # All clases belonging to a single day are grouped into one string
+        # We need to split them up into individual classes
         s = "_" + days[key]
         # print(key)
         # print(s)
 
+        # Determine where a new class begins
         split_pos = []
         for i in range(2, len(s)):
             if (s[i - 2] == "_" and s[i - 1].isupper() and s[i].isupper() and (s[i - 1] != "F" and s[i] != "I")):
                 split_pos.append(i - 2)
 
         split_pos = split_pos[::-1]
-
+        # Loop through the break points, break the string, and add each class to a bucket
         for pos in split_pos:
             items_raw[key].insert(0, (s[pos:]))
             s = s[:pos]
 
-
+    # Final result
     res = []
 
+    # Nested loop to loop through each individual class
     for key in items_raw:
         for item in items_raw[key]:
+            # The goal here is to split and flatten until each peice of information is isolated
+
+            # split by '_'
             a = item.split('_')
-            
             # split by '-'
-            a = list(map(lambda x: x.split("-") , a))
+            a = list(map(lambda x: x.split("-"), a))
             # flatten
             a = [i for sublist in a for i in sublist]
             # split by ' '
             a = list(map(lambda x: x.split(" "), a))
-            # flatten        
+            # flatten
             a = [i for sublist in a for i in sublist]
             # remove any empty items
-            a = list(filter(lambda x: (len(x) > 0) , a))
-            
+            a = list(filter(lambda x: (len(x) > 0), a))
+            # print(a)
+            # Each clases information is isolated, create the event
             event = {
                 "class": a[0],
                 "code": a[1],
@@ -149,7 +161,5 @@ def scrape_pdf(pdf_file, thresholds):
                 "end": a[5],
                 "location": " ".join(a[6:])
             }
-            
             res.append(event)
-
     return res
