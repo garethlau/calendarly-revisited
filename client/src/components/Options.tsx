@@ -6,7 +6,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Tooltip
 } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 
@@ -23,17 +24,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     form: {
       "& > *": {
-        margin: theme.spacing(1),
         width: 200
       }
     },
     buttons: {},
     formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120
+      minWidth: 200,
+      marginTop: "10px"
     },
     selectEmpty: {
       marginTop: theme.spacing(2)
+    },
+    datePicker: {
+      marginRight: "10px"
     }
   })
 );
@@ -51,7 +54,6 @@ const Options: React.FC<{
   );
   const [calendarId, setCalendarId] = useState<String>("");
   const [timeZone, setTimeZone] = useState<String>("");
-  const inputLabel = React.useRef<HTMLLabelElement>(null);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTimeZone(event.target.value as string);
@@ -70,26 +72,34 @@ const Options: React.FC<{
   return (
     <div className={classes.root}>
       <form>
-        <TextField
-          id="calendar-id"
-          label="Calendar ID"
-          name="calendarId"
-          onChange={e => setCalendarId(e.target.value)}
-        />
-      </form>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Time Zone</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={timeZone}
-          onChange={handleChange}
+        <Tooltip
+          title="You can find this in your calendar settings."
+          placement="right"
         >
-          <MenuItem value={"Canada/Eastern"}>Canada/Eastern</MenuItem>
-          <MenuItem value={"Canada/Mountain"}>Canada/Mountain</MenuItem>
-          <MenuItem value={"Canada/Pacific"}>Canada/Pacific</MenuItem>
-        </Select>
-      </FormControl>
+          <TextField
+            error={calendarId.length === 0 ? true : false}
+            id="calendar-id"
+            label="Calendar ID"
+            name="calendarId"
+            onChange={e => setCalendarId(e.target.value)}
+          />
+        </Tooltip>
+      </form>
+      <div>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Time Zone</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={timeZone}
+            onChange={handleChange}
+          >
+            <MenuItem value={"Canada/Eastern"}>Canada/Eastern</MenuItem>
+            <MenuItem value={"Canada/Mountain"}>Canada/Mountain</MenuItem>
+            <MenuItem value={"Canada/Pacific"}>Canada/Pacific</MenuItem>
+          </Select>
+        </FormControl>
+      </div>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
           disableToolbar
@@ -105,6 +115,7 @@ const Options: React.FC<{
           KeyboardButtonProps={{
             "aria-label": "change date"
           }}
+          className={classes.datePicker}
         />
         <KeyboardDatePicker
           disableToolbar
@@ -120,6 +131,7 @@ const Options: React.FC<{
           KeyboardButtonProps={{
             "aria-label": "change date"
           }}
+          className={classes.datePicker}
         />
       </MuiPickersUtilsProvider>
       <div className={classes.buttons}>

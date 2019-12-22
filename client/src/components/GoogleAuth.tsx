@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import { Button } from "@material-ui/core";
 import axios from "axios";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+
 interface Event {
     class: String;
     code: String;
@@ -12,6 +14,17 @@ interface Event {
     location: String;
   }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      textAlign: "center"
+    },
+    button: {
+      marginTop: "10px"
+    }
+  })
+);
+
 const GoogleAuth: React.FC<{
     options: {
         startDate: String,
@@ -20,6 +33,8 @@ const GoogleAuth: React.FC<{
     },
     events: Event[]
 }> = (props) => {
+  const classes = useStyles();
+  const [authed, setAuthed] = useState(false);
 
   const startAuth = () => {
     axios
@@ -29,7 +44,7 @@ const GoogleAuth: React.FC<{
         }
       })
       .then((res) => {
-        console.log("done login??", res);
+        setAuthed(true)
         window.open(res.data, "_blank")
       })
       .catch(err => {
@@ -49,16 +64,21 @@ const GoogleAuth: React.FC<{
   }
 
   return (
-    <div>
-      Google Auth Page
-      <Button variant="contained" color="primary" onClick={startAuth}>
-        Login to Google
+    <div className={classes.root}>
+      Almost there! We'll need your permission to add events to your Google Calendar.
+      <div>
+
+      <Button className={classes.button} variant="contained" color="primary" onClick={startAuth}>
+        Grant Permission
       </Button>
 
-
-      <Button variant="contained" color="primary" onClick={createEvents}>
+      </div>
+      <div>
+      <Button className={classes.button} variant="contained" color="primary" onClick={createEvents} disabled={!authed}>
         Create Events
       </Button>
+      </div>
+
     </div>
   );
 };

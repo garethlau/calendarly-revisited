@@ -5,7 +5,8 @@ import {
   Step,
   StepLabel,
   Button,
-  CircularProgress
+  CircularProgress,
+  Backdrop
 } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 
@@ -37,12 +38,21 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "50%",
       left: "50%",
       transform: "translate(50%, 50%)"
+    },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: "#fff"
     }
   })
 );
 
-function getSteps() {
-  return ["Upload a PDF", "Confirm Classes", "Configure", "Sign in to Google"];
+const getSteps = () => {
+  return [
+    "Upload a PDF",
+    "Confirm Classes",
+    "Adjust Options",
+    "Grant Permissions"
+  ];
 }
 
 const MainForm: React.FC = () => {
@@ -106,7 +116,7 @@ const MainForm: React.FC = () => {
           />
         );
       case 3:
-        return <GoogleAuth options={options} events={events}/>;
+        return <GoogleAuth options={options} events={events} />;
 
       default:
         return "Unknown step";
@@ -137,11 +147,9 @@ const MainForm: React.FC = () => {
           <div>
             <Typography className={classes.instructions}>
               {extracting ? (
-                <div className={classes.loaderContainer}>
-                  <div className={classes.loader}>
-                    <CircularProgress />
-                  </div>
-                </div>
+                <Backdrop className={classes.backdrop} open={extracting}>
+                  <CircularProgress />
+                </Backdrop>
               ) : (
                 getStepContent(activeStep)
               )}
