@@ -20,14 +20,20 @@ import {
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      padding: "30px"
+      padding: "30px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      width: "min-content"
     },
     form: {
       "& > *": {
         width: 200
       }
     },
-    buttons: {},
+    buttons: {
+      width: "min-content",
+      marginLeft: "auto"
+    },
     formControl: {
       minWidth: 200,
       marginTop: "10px"
@@ -36,8 +42,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(2)
     },
     datePicker: {
-      marginRight: "10px"
-    }
+    },
+    img: {
+      width: "auto",
+      height: "40vh",
+      marginLeft: "auto",
+      marginRight: "auto",
+      display: "block"
+    },
   })
 );
 
@@ -54,6 +66,7 @@ const Options: React.FC<{
   );
   const [calendarId, setCalendarId] = useState<String>("");
   const [timeZone, setTimeZone] = useState<String>("");
+    const [touched, setTouched] = useState<Boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setTimeZone(event.target.value as string);
@@ -70,74 +83,78 @@ const Options: React.FC<{
   };
 
   return (
-    <div className={classes.root}>
-      <form>
-        <Tooltip
-          title="You can find this in your calendar settings."
-          placement="right"
-        >
-          <TextField
-            error={calendarId.length === 0 ? true : false}
-            id="calendar-id"
-            label="Calendar ID"
-            name="calendarId"
-            onChange={e => setCalendarId(e.target.value)}
-          />
-        </Tooltip>
-      </form>
-      <div>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-label">Time Zone</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={timeZone}
-            onChange={handleChange}
+    <div>
+      <img className={classes.img} src={require("../assets/settings.svg")} />
+      <div className={classes.root}>
+        <form>
+          <Tooltip
+            title="You can find this in your calendar settings."
+            placement="right"
           >
-            <MenuItem value={"Canada/Eastern"}>Canada/Eastern</MenuItem>
-            <MenuItem value={"Canada/Mountain"}>Canada/Mountain</MenuItem>
-            <MenuItem value={"Canada/Pacific"}>Canada/Pacific</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Start Date"
-          value={startDate}
-          onChange={(date: Date | null) => {
-            setStartDate(date);
-          }}
-          KeyboardButtonProps={{
-            "aria-label": "change date"
-          }}
-          className={classes.datePicker}
-        />
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="End Date"
-          value={endDate}
-          onChange={(date: Date | null) => {
-            setEndDate(date);
-          }}
-          KeyboardButtonProps={{
-            "aria-label": "change date"
-          }}
-          className={classes.datePicker}
-        />
-      </MuiPickersUtilsProvider>
-      <div className={classes.buttons}>
-        <Button color="primary" variant="contained" onClick={saveConfig}>
-          Next
-        </Button>
+            <TextField
+              error={touched && (calendarId.length === 0 ? true : false)}
+              id="calendar-id"
+              label="Calendar ID"
+              name="calendarId"
+              onClick={() => setTouched(true)}
+              onChange={e => setCalendarId(e.target.value)}
+            />
+          </Tooltip>
+        </form>
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">Time Zone</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={timeZone}
+              onChange={handleChange}
+            >
+              <MenuItem value={"Canada/Eastern"}>Canada/Eastern</MenuItem>
+              <MenuItem value={"Canada/Mountain"}>Canada/Mountain</MenuItem>
+              <MenuItem value={"Canada/Pacific"}>Canada/Pacific</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="Start Date"
+            value={startDate}
+            onChange={(date: Date | null) => {
+              setStartDate(date);
+            }}
+            KeyboardButtonProps={{
+              "aria-label": "change date"
+            }}
+            className={classes.datePicker}
+          />
+          <KeyboardDatePicker
+            disableToolbar
+            variant="inline"
+            format="MM/dd/yyyy"
+            margin="normal"
+            id="date-picker-inline"
+            label="End Date"
+            value={endDate}
+            onChange={(date: Date | null) => {
+              setEndDate(date);
+            }}
+            KeyboardButtonProps={{
+              "aria-label": "change date"
+            }}
+            className={classes.datePicker}
+          />
+        </MuiPickersUtilsProvider>
+        <div className={classes.buttons}>
+          <Button color="primary" variant="contained" onClick={saveConfig}>
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

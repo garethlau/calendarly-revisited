@@ -21,7 +21,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     button: {
       marginTop: "10px"
-    }
+    },
+    img: {
+      width: "auto",
+      height: "60vh",
+      marginLeft: "auto",
+      marginRight: "auto",
+      display: "block"
+    },
   })
 );
 
@@ -31,7 +38,8 @@ const GoogleAuth: React.FC<{
         endDate: String,
         calendarId: String
     },
-    events: Event[]
+    events: Event[],
+    handleNext: Function
 }> = (props) => {
   const classes = useStyles();
   const [authed, setAuthed] = useState(false);
@@ -58,6 +66,7 @@ const GoogleAuth: React.FC<{
       data.append('events', JSON.stringify(props.events))
       axios.post('/api/v1/create-events', data).then(res => {
           console.log(res)
+          props.handleNext();
       }).catch(err => {
           console.log(err)
       })
@@ -65,6 +74,8 @@ const GoogleAuth: React.FC<{
 
   return (
     <div className={classes.root}>
+            <img className={classes.img} src={require("../assets/secure.svg")} />
+
       Almost there! We'll need your permission to add events to your Google Calendar.
       <div>
 

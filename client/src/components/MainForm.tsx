@@ -16,6 +16,7 @@ import Upload from "./Upload";
 import Schedule from "./Schedule";
 import Options from "./Options";
 import GoogleAuth from "./GoogleAuth";
+import Feedback from './Feedback';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -116,8 +117,7 @@ const MainForm: React.FC = () => {
           />
         );
       case 3:
-        return <GoogleAuth options={options} events={events} />;
-
+        return <GoogleAuth options={options} events={events} handleNext={handleNext}/>;
       default:
         return "Unknown step";
     }
@@ -140,7 +140,7 @@ const MainForm: React.FC = () => {
         {activeStep === steps.length ? (
           <div>
             <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
+              <Feedback message={"All done. Check your Google Calendar to see your schedule."} img={'created.svg'}/>
             </Typography>
           </div>
         ) : (
