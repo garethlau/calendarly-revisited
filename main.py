@@ -23,7 +23,7 @@ THRESHOLDS = [
     [95, 150],
     [169, 188],
     [200, 250],
-    [260, 285]
+    [260, 290]
 ]
 
 
@@ -89,9 +89,9 @@ def callback():
         users_email = userinfo_response.json()["email"]
         users_name = userinfo_response.json()["given_name"]
         print("{} {} {} ".format(unique_id, users_email, users_name))
-        return redirect("http://localhost:3000/close-tab")
+        return redirect("http://localhost:3000/auth/success")
     else:
-        return "User email not available or not verified by Google.", 400
+        return redirect("http://localhost:3000/auth/failure")
 
 
 @app.route('/api/v1/create-events', methods=['POST'])
