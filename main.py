@@ -12,7 +12,7 @@ from utils import get_date_time, get_google_provider_cfg, generate_recurrence_ru
 # Somewhere in webapp_example.py, before the app.run for example
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='client/build/static', template_folder='client/build')
 CORS(app)
 
 client = WebApplicationClient(keys['GOOGLE_CLIENT_ID'])
@@ -26,6 +26,12 @@ THRESHOLDS = [
     [260, 290]
 ]
 
+
+@app.route("/")
+@app.route('/auth/success')
+@app.route('/auth/failure')
+def index():
+    return render_template('index.html')
 
 @app.route("/login")
 def login():
