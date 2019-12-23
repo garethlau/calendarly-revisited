@@ -32,9 +32,14 @@ const useStyles = makeStyles((theme: Theme) =>
     prompt: {
         display: "inline-block",
         marginLeft: "10px",
+        marginRight: "10px"
     },
     action: {
         marginLeft: "auto",
+        clear: "left",
+        width: "fit-content",
+        paddingTop: "10px",
+        paddingRight: "10px"
     },
     grid: {
       width: 1475
