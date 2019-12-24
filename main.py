@@ -95,10 +95,11 @@ def callback():
         users_email = userinfo_response.json()["email"]
         users_name = userinfo_response.json()["given_name"]
         print("{} {} {} ".format(unique_id, users_email, users_name))
-        return redirect("http://localhost:3000/auth/success")
+        # return redirect("http://localhost:3000/auth/success")
+        return redirect("https://garethdev.space/auth/success")
     else:
-        return redirect("http://localhost:3000/auth/failure")
-
+        # return redirect("http://localhost:3000/auth/failure")
+        return redirect("https://garethdev.space/auth/failure")
 
 @app.route('/api/v1/create-events', methods=['POST'])
 def create_events():
