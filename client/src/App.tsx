@@ -4,11 +4,13 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 import MainForm from "./components/MainForm";
 import Feedback from "./components/Feedback";
+import Beta from "./components/Beta";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
       <div>
+        <Beta/>
         <Switch>
           <Route exact path={"/"} component={MainForm} />
           <Route

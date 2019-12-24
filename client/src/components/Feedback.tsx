@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "center"
     },
     img: {
-        width: "70vw",
+        height: "50vh",
         marginLeft: "auto",
         marginRight: "auto",
         marginTop: "15vh"
