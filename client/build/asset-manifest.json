@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5ecd60fb.chunk.css",
+    "main.js": "/static/js/main.2c3762c7.chunk.js",
+    "main.js.map": "/static/js/main.2c3762c7.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.5b50bb1e.js",
+    "runtime-main.js.map": "/static/js/runtime-main.5b50bb1e.js.map",
+    "static/js/2.047bfaf0.chunk.js": "/static/js/2.047bfaf0.chunk.js",
+    "static/js/2.047bfaf0.chunk.js.map": "/static/js/2.047bfaf0.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.e952bda7471c953406807f8dc2cf0236.js": "/precache-manifest.e952bda7471c953406807f8dc2cf0236.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.5ecd60fb.chunk.css.map": "/static/css/main.5ecd60fb.chunk.css.map",
+    "static/js/2.047bfaf0.chunk.js.LICENSE": "/static/js/2.047bfaf0.chunk.js.LICENSE",
+    "static/media/created.svg": "/static/media/created.34462a7d.svg",
+    "static/media/empty.svg": "/static/media/empty.394655bd.svg",
+    "static/media/failure.svg": "/static/media/failure.9572ce95.svg",
+    "static/media/file-drop.svg": "/static/media/file-drop.8fcca73d.svg",
+    "static/media/not-found.svg": "/static/media/not-found.ff28c8a4.svg",
+    "static/media/secure.svg": "/static/media/secure.9f4f9efb.svg",
+    "static/media/settings.svg": "/static/media/settings.740177cf.svg",
+    "static/media/success.svg": "/static/media/success.e64042a0.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.5b50bb1e.js",
+    "static/js/2.047bfaf0.chunk.js",
+    "static/css/main.5ecd60fb.chunk.css",
+    "static/js/main.2c3762c7.chunk.js"
+  ]
+}
